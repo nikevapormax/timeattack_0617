@@ -49,3 +49,8 @@ class User(AbstractBaseUser):
     def is_staff(self):
         return self.is_admin
     
+class UserType(models.Model):
+    type = models.OneToOneField(User, verbose_name="유저 타입", on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.type
