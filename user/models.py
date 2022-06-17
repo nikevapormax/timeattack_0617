@@ -20,12 +20,14 @@ class UserManager(BaseUserManager):
         user.is_admin = True
         user.save(using=self._db)
         return user
+    
 
 class UserType(models.Model):
     type = models.CharField("유저 타입", max_length=50)
     
     def __str__(self):
         return self.type 
+    
 class User(AbstractBaseUser):
     email = models.EmailField("이메일", max_length=100, unique=True)
     password = models.CharField("비밀번호", max_length=128)
