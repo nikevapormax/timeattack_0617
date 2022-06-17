@@ -1,3 +1,22 @@
-from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import permissions
+from django.contrib.auth.hashers import make_password
+from .models import User as UserModel
 
-# Create your views here.
+class UserView(APIView):
+    permission_classes = [permissions.AllowAny]
+    
+    def post(self, request):
+        usertype = request.data.get('user_type')
+        email = request.data.get('email', '')
+        password = request.data.get('data', '')
+        real_password = make_password(password, salt=None, hasher='default')
+        
+        user = UserModel.objects.filter(email=email)
+        
+        if not user:
+            user = UserModel(email=email, password=real_password, user_type=usertype)
+            return Response({"msg": "회원가입 성공!!"})
+        
+        return Response({"msg": "이미 가입한 유저입니다."})
