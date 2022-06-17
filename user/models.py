@@ -25,15 +25,14 @@ class UserType(models.Model):
     type = models.CharField("유저 타입", max_length=50)
     
     def __str__(self):
-        return self.type
-    
+        return self.type 
 class User(AbstractBaseUser):
     email = models.EmailField("이메일", max_length=100, unique=True)
     password = models.CharField("비밀번호", max_length=128)
     name = models.CharField("이름", max_length=20)
     join_data = models.DateTimeField("가입일자", auto_now_add=True)
-    type = models.OneToOneField(UserType, verbose_name="유저 타입", on_delete=models.SET_NULL, null=True)
-    
+    user_type = models.OneToOneField(UserType, verbose_name="유저 타입", on_delete=models.SET_NULL, null=True)
+        
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=True)
     
@@ -55,4 +54,4 @@ class User(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
-    
+
